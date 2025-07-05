@@ -3,8 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from agent import run_agent
 from dotenv import load_dotenv
 import os
+import sys
 
-
+print("Installed packages:", sys.path)
 load_dotenv()
 app = FastAPI()
 
