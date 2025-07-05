@@ -1,13 +1,17 @@
+import streamlit as st
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from datetime import datetime, timedelta
 
-SERVICE_ACCOUNT_FILE = 'credentials.json'
+# Use secrets from Streamlit for credentials
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 CALENDAR_ID = '7da101809682e84581d3a2b0f5a41af81173315147c5482f01be71bbf0045c2e@group.calendar.google.com'  # Replace this with your real Calendar ID
 
-credentials = service_account.Credentials.from_service_account_file(
-    SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+# Load credentials from Streamlit secrets
+credentials = service_account.Credentials.from_service_account_info(
+    st.secrets["GOOGLE_CREDENTIALS"],
+    scopes=SCOPES
+)
 service = build('calendar', 'v3', credentials=credentials)
 
 def check_availability(start, end):
