@@ -8,7 +8,7 @@ if "chat" not in st.session_state:
 user_input = st.text_input("You:", key="input")
 if user_input:
     st.session_state.chat.append(("user", user_input))
-    response = requests.post("http://localhost:8000/chat", json={"message": user_input})
+    response = requests.post("https://calendar-bot-api.up.railway.app/chat", json={"message": user_input})
 
     st.text(f"RAW RESPONSE: {response.text}")  # ← This will show what's coming back
 
