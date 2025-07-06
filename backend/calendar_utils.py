@@ -1,4 +1,5 @@
-import streamlit as st
+import os
+import json
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from datetime import datetime, timedelta
@@ -9,7 +10,7 @@ CALENDAR_ID = '7da101809682e84581d3a2b0f5a41af81173315147c5482f01be71bbf0045c2e@
 
 # Load credentials from Streamlit secrets
 credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["GOOGLE_CREDENTIALS"],
+    json.loads(os.getenv("GOOGLE_CREDENTIALS")),
     scopes=SCOPES
 )
 service = build('calendar', 'v3', credentials=credentials)
