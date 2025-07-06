@@ -8,7 +8,7 @@ if "chat" not in st.session_state:
 user_input = st.text_input("You:", key="input")
 if user_input:
     st.session_state.chat.append(("user", user_input))
-    BACKEND_URL = "https://your-fastapi-service.up.railway.app/chat"
+    BACKEND_URL = "https://calender-bot-production.up.railway.app/chat"
     response = requests.post(BACKEND_URL, json={"message": user_input})
 
 
