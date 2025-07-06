@@ -1,16 +1,25 @@
 import os
 import json
+import base64
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from datetime import datetime, timedelta
 
-# Use secrets from Streamlit for credentials
+# Google Calendar API scope and calendar ID
 SCOPES = ['https://www.googleapis.com/auth/calendar']
-CALENDAR_ID = '7da101809682e84581d3a2b0f5a41af81173315147c5482f01be71bbf0045c2e@group.calendar.google.com'  # Replace this with your real Calendar ID
+CALENDAR_ID = '7da101809682e84581d3a2b0f5a41af81173315147c5482f01be71bbf0045c2e@group.calendar.google.com'  # Replace with your actual calendar ID
 
-# Load credentials from Streamlit secrets
+# Decode the base64-encoded credentials from environment variable
+b64_creds = os.getenv("GOOGLE_CREDENTIALS_B64")
+if not b64_creds:
+    raise ValueError("GOOGLE_CREDENTIALS_B64 environment variable not found.")
+
+creds_json = base64.b64decode(b64_creds).decode("utf-8")
+creds_dict = json.loads(creds_json)
+
+# Create credentials object
 credentials = service_account.Credentials.from_service_account_info(
-    json.loads(os.getenv("GOOGLE_CREDENTIALS")),
+    creds_dict,
     scopes=SCOPES
 )
 service = build('calendar', 'v3', credentials=credentials)
